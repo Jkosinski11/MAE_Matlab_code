@@ -4,7 +4,7 @@ close all
 
 function  Node_map = func1(letter)
 Ts = 0.2;  % Time Step
-N = 1000; % Total time steps
+N = 3000; % Total time steps
 
 %% noise assumptions
 sigma_V=0.2;
@@ -171,8 +171,8 @@ for k = 1:N
     xlabel('robot x position (m)');
     ylabel('robot y position (m)');
     title('Robot Navigation Using a Beacon')
-    xlim([-18, 200]);
-    ylim([-18, 200]);
+    xlim([-5, 300]);
+    ylim([-5, 175]);
     drawnow
     pause(0.01);
 end
@@ -203,10 +203,13 @@ end
 
 prompt= 'input a String ';
 string = upper(input(prompt, 's'));
-
-
+x_extend = 0;
+word_matrix = [];
 for i = 1: length(string)
-disp(string(i));
 letter_Matrix = table2array(readLetterCSV(string(i)));
-func1(letter_Matrix);
+letter_Matrix(:,1) = letter_Matrix(:,1)+ x_extend+10;
+word_matrix = [word_matrix; letter_Matrix];
+x_extend = max(word_matrix(:,1));
 end
+
+func1(word_matrix);
